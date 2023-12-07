@@ -1,0 +1,48 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	<Design.PreviewWith>
+		<Border Padding="20">
+		</Border>
+	</Design.PreviewWith>
+	<Style Selector="StackPanel.ProjectControlContainer">
+		<Setter Property="Grid.Row" Value="2"/>
+		<Setter Property="Grid.RowSpan" Value="2"/>
+		<Setter Property="HorizontalAlignment" Value="Stretch"/>
+		<Setter Property="Margin" Value="20 70 20 0"/>
+	</Style>
+	<Style Selector="Border.UserLimitsContainer">
+		<Setter Property="Grid.Column" Value="0"/>
+		<Setter Property="BorderThickness" Value="0 1 1 0"/>
+	</Style>
+	<Style Selector="Border.TodayTimeContainer">
+		<Setter Property="Grid.Column" Value="1"/>
+		<Setter Property="BorderThickness" Value="0 1 0 0"/>
+	</Style>
+	<Style Selector="Label.UserLimitsTag">
+	</Style>
+	<Style Selector="Label.TodayTimeTag">
+	</Style>
+	<Style Selector="Canvas.ProjectControlBtnContainer">
+		<Setter Property="Grid.Column" Value="2"/>
+	</Style>
+	<Style Selector="Image.ProjectControlBtnImg">
+		<Setter Property="Canvas.Top" Value="-35"/>
+		<Setter Property="Canvas.Left" Value="-25"/>
+		<Setter Property="Height" Value="50"/>
+		<Setter Property="Width" Value="50"/>
+		<Setter Property="Cursor" Value="Hand"/>
+		<Setter Property="Source" Value="/Assets/Images/play-button.png"/>
+		<Style Selector="^.Running">
+			<Setter Property="Source" Value="/Assets/Images/stop-button.png"/>
+		</Style>
+	</Style>
+	<Style Selector="Border.ProjectControlBorder">
+		<Setter Property="BorderBrush" Value="LightGray"/>
+		<Setter Property="Padding" Value="5"/>
+	</Style>
+	<Style Selector="Label.ControlTag">
+		<Setter Property="Foreground" Value="LightGray"/>
+		<Setter Property="FontSize" Value="12"/>
+		<Setter Property="HorizontalAlignment" Value="Center"/>
+	</Style>
+</Styles>

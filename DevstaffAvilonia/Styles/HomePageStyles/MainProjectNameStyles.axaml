@@ -1,0 +1,16 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	<Design.PreviewWith>
+		<Border Padding="20">
+		</Border>
+	</Design.PreviewWith>
+	<Style Selector="Label.NameTag">
+		<Setter Property="Foreground" Value="Black"/>
+		<Setter Property="FontWeight" Value="Bold"/>
+		<Setter Property="FontSize" Value="18"/>
+		<Setter Property="Grid.Row" Value="1"/>
+		<Setter Property="Margin" Value="0 15 0 0"/>
+		<Setter Property="HorizontalAlignment" Value="Center"/>
+		<Setter Property="MinHeight" Value="28"/>
+	</Style>
+</Styles>
