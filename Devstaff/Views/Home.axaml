@@ -10,99 +10,99 @@
         MinHeight="{Binding MinHeight}" Height="{Binding DefaultHeight}"
         Icon="/Assets/Icons/DevStaff.ico"
         Background="White">
-    <Window.Styles>
-        <StyleInclude Source="/Styles/HomePageStyles/MainProjectTimeStyles.axaml" />
-        <StyleInclude Source="/Styles/HomePageStyles/MainProjectNameStyles.axaml" />
-        <StyleInclude Source="/Styles/HomePageStyles/MainProjectControlStyles.axaml" />
-        <StyleInclude Source="/Styles/HomePageStyles/ProjectSearchStyles.axaml" />
-        <StyleInclude Source="/Styles/HomePageStyles/UserOrganizationStyles.axaml" />
-        <StyleInclude Source="/Styles/HomePageStyles/UserProjectsStyles.axaml" />
-        <StyleInclude Source="/Styles/HomePageStyles/FooterStyles.axaml" />
-    </Window.Styles>
-    <Grid RowDefinitions="auto,auto,auto,auto,30,auto,*">
-        <Grid Classes="TimeGrid" ColumnDefinitions="0.2*,0.6*,0.2*">
-            <Border Classes="TimeContainer"
+	<Window.Styles>
+		<StyleInclude Source="/Styles/HomePageStyles/MainProjectTimeStyles.axaml" />
+		<StyleInclude Source="/Styles/HomePageStyles/MainProjectNameStyles.axaml" />
+		<StyleInclude Source="/Styles/HomePageStyles/MainProjectControlStyles.axaml" />
+		<StyleInclude Source="/Styles/HomePageStyles/ProjectSearchStyles.axaml" />
+		<StyleInclude Source="/Styles/HomePageStyles/UserOrganizationStyles.axaml" />
+		<StyleInclude Source="/Styles/HomePageStyles/UserProjectsStyles.axaml" />
+		<StyleInclude Source="/Styles/HomePageStyles/FooterStyles.axaml" />
+	</Window.Styles>
+	<Grid RowDefinitions="auto,auto,auto,auto,30,auto,*">
+		<Grid Classes="TimeGrid" ColumnDefinitions="0.2*,0.6*,0.2*">
+			<Border Classes="TimeContainer"
                     Classes.Running="{Binding SelectedProjectRunning}"
                     Classes.NotRunning="{Binding !SelectedProjectRunning}">
-                <Label Classes="TimeTag"
+				<Label Classes="TimeTag"
                        Content="{Binding SelectedProjectTime}" />
-            </Border>
-        </Grid>
-        <Label Grid.Row="0" Classes="NameTag"
+			</Border>
+		</Grid>
+		<Label Classes="NameTag"
                Content="{Binding SelectedProjectName}" />
-        <StackPanel Grid.Row="0" Classes="ProjectControlContainer">
-            <Grid ColumnDefinitions="0.5*,0.5*">
-                <Border Classes="UserLimitsContainer ProjectControlBorder">
-                    <Label Classes="UserLimitsTag ControlTag"
+		<StackPanel Classes="ProjectControlContainer">
+			<Grid ColumnDefinitions="0.5*,0.5*">
+				<Border Classes="UserLimitsContainer ProjectControlBorder">
+					<Label Classes="UserLimitsTag ControlTag"
                            Content="No Limits" />
-                </Border>
-                <Border Grid.Column="0" Classes="TodayTimeContainer ProjectControlBorder">
-                    <Label Classes="TodayTimeTag ControlTag"
+				</Border>
+				<Border Classes="TodayTimeContainer ProjectControlBorder">
+					<Label Classes="TodayTimeTag ControlTag"
                            Content="{Binding TodayTime}" />
-                </Border>
-                <Canvas Grid.Column="0" Classes="ProjectControlBtnContainer">
-                    <Image Classes="ProjectControlBtnImg"
+				</Border>
+				<Canvas Classes="ProjectControlBtnContainer">
+					<Image Classes="ProjectControlBtnImg"
                            Classes.Running="{Binding SelectedProjectRunning}"
                            PointerReleased="RunSelectedProject" />
-                </Canvas>
-            </Grid>
-        </StackPanel>
-        <Border Grid.Row="0" Classes="SearchContainer">
-            <Grid ColumnDefinitions="auto,12*">
-                <Image Classes="SearchContainerIcon"
+				</Canvas>
+			</Grid>
+		</StackPanel>
+		<Border Classes="SearchContainer">
+			<Grid ColumnDefinitions="auto,12*">
+				<Image Classes="SearchContainerIcon"
                        Source="/Assets/Images/search.png" />
-                <TextBox Grid.Column="0" Classes="SearchInput"
+				<TextBox Classes="SearchInput"
                          Text="{Binding ProjectSearchString, Mode=TwoWay}" />
-            </Grid>
-        </Border>
-        <Border Grid.Row="0" Classes="OrganizationContainer">
-            <Label Classes="OrganizationTag"
+			</Grid>
+		</Border>
+		<Border Classes="OrganizationContainer">
+			<Label Classes="OrganizationTag"
                    Content="{Binding UserOrganization}" />
-        </Border>
-        <Grid Grid.Row="0" Classes="ProjectsContainer" RowDefinitions="*,Auto">
-            <ScrollViewer Classes="ProjectsScroll">
-                <ItemsControl ItemsSource="{Binding Projects}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate DataType="models:ProjectUi">
-                            <Border Tag="{Binding Id}"
+		</Border>
+		<Grid Classes="ProjectsContainer" RowDefinitions="*,Auto">
+			<ScrollViewer Classes="ProjectsScroll">
+				<ItemsControl ItemsSource="{Binding Projects}">
+					<ItemsControl.ItemTemplate>
+						<DataTemplate DataType="models:ProjectUi">
+							<Border Tag="{Binding Id}"
                                     Classes="ProjectUnitContainer"
                                     Classes.Selected="{Binding Selected}"
                                     Classes.Running="{Binding IsRunning}"
                                     PointerReleased="SelectProject">
-                                <Grid Classes="ProjectGrid" ColumnDefinitions="auto,*">
-                                    <Image Tag="{Binding Id}"
+								<Grid Classes="ProjectGrid" ColumnDefinitions="auto,*">
+									<Image Tag="{Binding Id}"
                                            Classes="ProjectUnitControlImage"
                                            PointerReleased="SelectAndRunProject" />
-                                    <Border Grid.Column="0" Classes="ProjectUnitBlock">
-                                        <Grid Classes="ProjectInfoGrid" ColumnDefinitions="6*,6*">
-                                            <Label Content="{Binding Name}"
+									<Border  Classes="ProjectUnitBlock">
+										<Grid Classes="ProjectInfoGrid" ColumnDefinitions="6*,6*">
+											<Label Content="{Binding Name}"
                                                    Classes="ProjectUnitNameTag" />
-                                            <Label Grid.Column="0" Content="{Binding Time}"
+											<Label  Content="{Binding Time}"
                                                    Classes="ProjectUnitTimeTag" />
-                                        </Grid>
-                                    </Border>
-                                </Grid>
-                            </Border>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </ScrollViewer>
-            <Border Grid.Row="0" Classes="FooterContainer">
-                <Grid ColumnDefinitions="8*,4*">
-                    <Grid Classes="LeftControls" ColumnDefinitions="auto,*">
-                        <Image Source="/Assets/Images/refresh-arrow.png"
+										</Grid>
+									</Border>
+								</Grid>
+							</Border>
+						</DataTemplate>
+					</ItemsControl.ItemTemplate>
+				</ItemsControl>
+			</ScrollViewer>
+			<Border  Classes="FooterContainer">
+				<Grid ColumnDefinitions="8*,4*">
+					<Grid Classes="LeftControls" ColumnDefinitions="auto,*">
+						<Image Source="/Assets/Images/refresh-arrow.png"
                                Classes="FooterIcons RefreshIcon" />
-                        <TextBlock Grid.Column="0" Text="{Binding LastUpdatedAt}"
+						<TextBlock  Text="{Binding LastUpdatedAt}"
                                    Classes="LastUpdatedLabel" />
-                    </Grid>
-                    <Grid Grid.Column="0" Classes="RightControls" ColumnDefinitions="auto,*">
-                        <Image Source="/Assets/Images/minimize.png"
+					</Grid>
+					<Grid  Classes="RightControls" ColumnDefinitions="auto,*">
+						<Image Source="/Assets/Images/minimize.png"
                                Classes="FooterIcons MinimizeIcon" />
-                        <Image Grid.Column="0" Source="/Assets/Images/right.png"
+						<Image  Source="/Assets/Images/right.png"
                                Classes="FooterIcons RightIcon" />
-                    </Grid>
-                </Grid>
-            </Border>
-        </Grid>
-    </Grid>
+					</Grid>
+				</Grid>
+			</Border>
+		</Grid>
+	</Grid>
 </Window>
