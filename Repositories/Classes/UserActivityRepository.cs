@@ -6,6 +6,8 @@ namespace Repositories.Classes;
 
 public class UserActivityRepository : GenericRepository<UserActivity>, IUserActivityRepository
 {
-	public UserActivityRepository(DbContext context) 
-		: base(context ?? throw new ArgumentNullException(nameof(context))) { }
+    public UserActivityRepository(DbContext context)
+        : base(context ?? throw new ArgumentNullException(nameof(context)))
+    {
+    }
 }

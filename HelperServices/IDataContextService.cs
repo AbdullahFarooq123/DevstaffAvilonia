@@ -4,13 +4,13 @@ namespace HelperServices;
 
 public interface IDataContextService
 {
-	public Task<User?> LoadUser(int? UserId);
-	public Task<List<Project>?> LoadProjects(int? UserId);
-	public Task<DateTime> LoadLastUpdatedEntry();
-	public Task UpdateUserActivity(UserActivity UserActivity);
-	public Task<IntervalEntry?> InsertIntervalActivity(int? ActivityId, int? ProjectId);
-	public Task InsertScreenshots(int? IntervalEntryId, IEnumerable<Screenshot> Screenshots);
-	public Task<UserActivity?> InsertActivity(UserActivity UserActivity);
-	public Task<User?> InsertUser(User user);
-	public Task<Project?> InsertProject(Project project);
+    public Task<User?> LoadUser(int? userId);
+    public Task<List<Project>?> LoadProjects(int? userId);
+    public Task<DateTime> LoadLastUpdatedEntry();
+    public Task UpdateUserActivity(UserActivity userActivity);
+    public Task<IntervalEntry?> InsertIntervalActivity(int? activityId, int? projectId);
+    public Task InsertScreenshots(int? intervalEntryId, IEnumerable<Screenshot> screenshots);
+    public Task<UserActivity?> InsertActivity(UserActivity userActivity);
+    public Task<User?> InsertUser(User user);
+    public Task<Project?> InsertProject(Project project);
 }

@@ -1,0 +1,44 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Design.PreviewWith>
+        <Border Padding="20">
+        </Border>
+    </Design.PreviewWith>
+    <Style Selector="Border.FooterContainer">
+        <Setter Property="Grid.Row" Value="1" />
+        <Setter Property="VerticalAlignment" Value="Bottom" />
+        <Setter Property="BorderBrush" Value="LightGray" />
+        <Setter Property="BorderThickness" Value="0 1 0 0" />
+        <Setter Property="Padding" Value="5" />
+    </Style>
+    <Style Selector="Grid.LeftControls">
+        <Setter Property="Column" Value="0" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+    </Style>
+    <Style Selector="Grid.RightControls">
+        <Setter Property="Column" Value="1" />
+        <Setter Property="HorizontalAlignment" Value="Right" />
+    </Style>
+    <Style Selector="TextBlock.LastUpdatedLabel">
+        <Setter Property="Grid.Column" Value="1" />
+        <Setter Property="Foreground" Value="Black" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+    <Style Selector="Image.FooterIcons">
+        <Setter Property="Width" Value="15" />
+        <Setter Property="Height" Value="15" />
+    </Style>
+    <Style Selector="Image.RefreshIcon">
+        <Setter Property="Grid.Column" Value="0" />
+        <Setter Property="Margin" Value="0 0 5 0" />
+    </Style>
+    <Style Selector="Image.MinimizeIcon">
+        <Setter Property="Grid.Column" Value="0" />
+        <Setter Property="Margin" Value="0 0 15 0" />
+    </Style>
+    <Style Selector="Image.RightIcon">
+        <Setter Property="Grid.Column" Value="1" />
+        <Setter Property="Margin" Value="0 0 10 0" />
+    </Style>
+</Styles>

@@ -1,0 +1,46 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	<Design.PreviewWith>
+		<Border Padding="20"
+				Width="500"
+				Height="100">
+			<Border Classes="SearchContainer">
+				<Grid ColumnDefinitions="1*,11*">
+					<Image Classes="SearchContainerIcon"
+					       Source="/Assets/Images/search.png"/>
+					<TextBox Grid.Column="0" Classes="SearchInput"/>
+				</Grid>
+			</Border>
+		</Border>
+	</Design.PreviewWith>
+	<Style Selector="Border.SearchContainer">
+		<Setter Property="Grid.Row" Value="4"/>
+		<Setter Property="BorderBrush" Value="LightGray"/>
+		<Setter Property="BorderThickness" Value="1"/>
+		<Setter Property="Margin" Value="20 10 20 0"/>
+	</Style>
+	<Style Selector="Image.SearchContainerIcon">
+		<Setter Property="Width" Value="15"/>
+		<Setter Property="Height" Value="15"/>
+		<Setter Property="Grid.Column" Value="0"/>
+	</Style>
+	<Style Selector="TextBox.SearchInput">
+		<Setter Property="Grid.Column" Value="1"/>
+		<Setter Property="FontSize" Value="12"/>
+		<Setter Property="Height" Value="0"/>
+		<Setter Property="Margin" Value="0"/>
+		<Setter Property="Padding" Value="0"/>
+		<Setter Property="Watermark" Value="Search Projects"/>
+		<Setter Property="VerticalContentAlignment" Value="Center"/>
+		<Setter Property="Background" Value="Transparent"/>
+		<Setter Property="Foreground" Value="Black"/>
+		<Setter Property="CaretBrush" Value="Black" />
+		<Style Selector="^ /template/ Border#PART_BorderElement">
+			<Setter Property="BorderThickness" Value="0"/>
+			<Setter Property="Background" Value="Transparent"/>
+		</Style>
+		<Style Selector="^ /template/ TextBlock#PART_Watermark">
+			<Setter Property="Foreground" Value="Black" />
+		</Style>
+	</Style>
+</Styles>

@@ -6,6 +6,8 @@ namespace Services.Classes;
 
 public class ScreenshotService : GenericService<Screenshot>, IScreenshotService
 {
-	public ScreenshotService(IGenericRepository<Screenshot> genericRepository)
-		: base(genericRepository ?? throw new ArgumentNullException(nameof(genericRepository))) { }
+    public ScreenshotService(IGenericRepository<Screenshot> genericRepository)
+        : base(genericRepository ?? throw new ArgumentNullException(nameof(genericRepository)))
+    {
+    }
 }

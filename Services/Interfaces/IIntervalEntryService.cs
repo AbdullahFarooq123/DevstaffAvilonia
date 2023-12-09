@@ -2,4 +2,6 @@
 
 namespace Services.Interfaces;
 
-public interface IIntervalEntryService : IGenericService<IntervalEntry> { }
+public interface IIntervalEntryService : IGenericService<IntervalEntry>
+{
+}

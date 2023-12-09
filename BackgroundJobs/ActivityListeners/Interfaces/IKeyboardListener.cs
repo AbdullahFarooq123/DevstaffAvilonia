@@ -1,3 +1,5 @@
 ﻿namespace BackgroundJobs.ActivityListeners.Interfaces;
 
-public interface IKeyboardListener : IHookListener { }
+public interface IKeyboardListener : IHookListener
+{
+}

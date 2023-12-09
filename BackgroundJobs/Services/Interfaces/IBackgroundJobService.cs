@@ -11,7 +11,8 @@ public interface IBackgroundJobService
         Delegates.ParameterizedHookCallback<string> screenshotsActivityCallback,
         Delegates.HookCallback mouseActivityCallback,
         Delegates.HookCallback keyboardActivityCallback
-        );
+    );
+
     public void HookJobs();
     public void UnHookJobs();
     public int GetIdleTimeInterval();

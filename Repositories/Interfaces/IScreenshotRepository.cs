@@ -2,4 +2,6 @@
 
 namespace Repositories.Interfaces;
 
-public interface IScreenshotRepository : IGenericRepository<Screenshot> { }
+public interface IScreenshotRepository : IGenericRepository<Screenshot>
+{
+}

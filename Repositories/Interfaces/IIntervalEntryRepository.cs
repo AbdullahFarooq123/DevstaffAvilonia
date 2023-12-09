@@ -2,4 +2,6 @@
 
 namespace Repositories.Interfaces;
 
-public interface IIntervalEntryRepository : IGenericRepository<IntervalEntry> { }
+public interface IIntervalEntryRepository : IGenericRepository<IntervalEntry>
+{
+}

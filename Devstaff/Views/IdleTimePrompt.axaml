@@ -1,0 +1,28 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="200"
+        Width="400"
+        Height="200"
+        CanResize="False"
+        x:Class="DevStaff.Views.IdleTimePrompt"
+        Background="White"
+        Foreground="Black"
+        Padding="20"
+        Icon="/Assets/Icons/DevStaff.ico"
+        Title="Idle Prompt">
+    <Grid RowDefinitions="auto,*">
+        <StackPanel Grid.Row="0">
+            <TextBlock Text="You have been idle for 10 minutes." FontSize="12" Margin="0 0 0 5" />
+            <TextBlock Text="Project: Avionte" FontSize="12" Margin="0 0 0 20" />
+            <CheckBox Content="Keep idle time" FontSize="12" Foreground="Black" />
+        </StackPanel>
+        <Grid Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Right" ColumnDefinitions="auto,auto">
+            <Button Content="Stop" FontSize="12" Grid.Column="0" Width="100" Background="LightGray" Foreground="Black"
+                    Margin="0 0 10 0" HorizontalContentAlignment="Center" />
+            <Button Content="Continue" FontSize="12" Grid.Column="1" Width="100" Background="LightGray"
+                    Foreground="Black" HorizontalContentAlignment="Center" />
+        </Grid>
+    </Grid>
+</Window>

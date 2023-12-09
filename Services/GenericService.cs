@@ -3,22 +3,22 @@
 namespace Services;
 
 public class GenericService<TEntity> : IGenericService<TEntity>
-	where TEntity : class
+    where TEntity : class
 {
-	protected readonly IGenericRepository<TEntity> _repository;
+    protected readonly IGenericRepository<TEntity> Repository;
 
-	public GenericService(IGenericRepository<TEntity> genericRepository) =>
-		_repository = genericRepository ?? throw new ArgumentNullException(nameof(genericRepository));
+    protected GenericService(IGenericRepository<TEntity> genericRepository) =>
+        Repository = genericRepository ?? throw new ArgumentNullException(nameof(genericRepository));
 
-	public IQueryable<TEntity> GetAll() => _repository.GetAll();
+    public IQueryable<TEntity> GetAll() => Repository.GetAll();
 
-	public async Task<TEntity?> GetByIdAsync(object id) => await _repository.GetByIdAsync(id);
+    public Task<TEntity?> GetByIdAsync(object id) => Repository.GetByIdAsync(id);
 
-	public async Task InsertAsync(TEntity entity) => await _repository.InsertAsync(entity);
+    public Task InsertAsync(TEntity entity) => Repository.InsertAsync(entity);
 
-	public async Task UpdateAsync(TEntity entity) => await _repository.UpdateAsync(entity);
+    public Task UpdateAsync(TEntity entity) => Repository.UpdateAsync(entity);
 
-	public async Task DeleteAsync(object id) => await _repository.DeleteAsync(id);
+    public Task DeleteAsync(object id) => Repository.DeleteAsync(id);
 
-	public async Task InsertManyAsync(IEnumerable<TEntity> entities) => await _repository.InsertManyAsync(entities);
+    public Task InsertManyAsync(IEnumerable<TEntity> entities) => Repository.InsertManyAsync(entities);
 }

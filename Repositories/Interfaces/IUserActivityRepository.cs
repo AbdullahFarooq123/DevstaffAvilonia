@@ -2,4 +2,6 @@
 
 namespace Repositories.Interfaces;
 
-public interface IUserActivityRepository : IGenericRepository<UserActivity> { }
+public interface IUserActivityRepository : IGenericRepository<UserActivity>
+{
+}

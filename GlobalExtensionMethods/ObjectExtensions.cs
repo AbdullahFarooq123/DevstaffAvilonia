@@ -23,6 +23,6 @@ public static class ObjectExtensions
 		!string.IsNullOrWhiteSpace(str);
 	#endregion StringExtensions
 
-	public static bool IsInstantiable(this Type type) => !type.IsAbstract && !type.IsInterface;
+	public static bool IsInstantiable(this Type type) => type is { IsAbstract: false, IsInterface: false };
 	public static bool IsNotInstantiable(this Type type) => type.IsAbstract || type.IsInterface;
 }

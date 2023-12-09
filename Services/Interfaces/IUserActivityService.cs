@@ -2,4 +2,6 @@
 
 namespace Services.Interfaces;
 
-public interface IUserActivityService : IGenericService<UserActivity> { }
+public interface IUserActivityService : IGenericService<UserActivity>
+{
+}

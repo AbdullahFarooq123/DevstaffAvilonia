@@ -4,8 +4,7 @@ namespace DataContext;
 
 public class User
 {
-	[Key] public int Id { get; set; }
-
-	public string OrganizationName { get; set; }
-	public IEnumerable<Project> Projects { get; set; }
+    [Key] public int Id { get; init; }
+    [MaxLength(100)] public required string OrganizationName { get; init; }
+    public IEnumerable<Project> Projects { get; init; } = null!;
 }

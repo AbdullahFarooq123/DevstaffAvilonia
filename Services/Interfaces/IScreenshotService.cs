@@ -2,4 +2,6 @@
 
 namespace Services.Interfaces;
 
-public interface IScreenshotService : IGenericService<Screenshot> { }
+public interface IScreenshotService : IGenericService<Screenshot>
+{
+}

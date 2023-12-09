@@ -1,3 +1,5 @@
 ﻿namespace BackgroundJobs.ActivityListeners.Interfaces;
 
-public interface IMouseListener : IHookListener { }
+public interface IMouseListener : IHookListener
+{
+}

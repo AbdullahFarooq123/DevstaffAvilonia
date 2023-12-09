@@ -11,38 +11,46 @@ namespace BackgroundJobs.ActivityListeners.Classes;
 
 public class WinScreenshotListener : IScreenshotListener
 {
-	private readonly ITimerUtilities _timerUtilities;
-	private readonly IScreenshotApi _screenshotApi;
-	private readonly int _intervalTimeMin = 1;
+    private readonly ITimerUtilities _timerUtilities;
+    private readonly IScreenshotApi _screenshotApi;
+    private const int IntervalTimeMin = 1;
 
-	public WinScreenshotListener(ITimerUtilities timerUtilities, IScreenshotApi screenshotApi)
-	{
-		_timerUtilities = timerUtilities ?? throw new ArgumentNullException(nameof(timerUtilities));
-		_screenshotApi = screenshotApi ?? throw new ArgumentNullException(nameof(screenshotApi));
-	}
-	public void HookJob(Delegates.ParameterizedHookCallback<string>? screenshotCallback) =>
-		_timerUtilities.HookJob(TimerUtilities.MinutesToMillis(_intervalTimeMin), 0, (object? state) =>
-				CreateAndCallbackScreenshot(screenshotCallback, true));
-	public void UnHookJob() =>
-		_timerUtilities.UnHookJob();
+    public WinScreenshotListener(ITimerUtilities timerUtilities, IScreenshotApi screenshotApi)
+    {
+        _timerUtilities = timerUtilities ?? throw new ArgumentNullException(nameof(timerUtilities));
+        _screenshotApi = screenshotApi ?? throw new ArgumentNullException(nameof(screenshotApi));
+    }
 
-	private void CreateAndCallbackScreenshot(Delegates.ParameterizedHookCallback<string>? screenshotCallback, bool saveImage = false)
-	{
-		if (screenshotCallback.HasNoValue()) throw new ArgumentNullException(nameof(screenshotCallback));
-		var ImgSource = _screenshotApi.CaptureWindow();
-		var base64Image = ConvertImageToBase64(ImgSource);
-		screenshotCallback.Value()(base64Image);
-		if (saveImage)
-			ImgSource.Save($"D:\\Screenshots\\{DateTime.UtcNow.ToString("dd:MM:yyyy hh:mm:ss tt").Replace(":", "_")}.png", ImageFormat.Png);
-	}
-	private string ConvertImageToBase64(Image image)
-	{
-		using (var memoryStream = new MemoryStream())
-		{
-			image.Save(memoryStream, ImageFormat.Png);
-			var imageBytes = memoryStream.ToArray();
-			var base64String = Convert.ToBase64String(imageBytes);
-			return base64String;
-		}
-	}
+    public void HookJob(Delegates.ParameterizedHookCallback<string>? screenshotCallback) =>
+        _timerUtilities.HookJob(TimerUtilities.MinutesToMillis(IntervalTimeMin), 0, _ =>
+            CreateAndCallbackScreenshot(screenshotCallback, true));
+
+    public void UnHookJob() =>
+        _timerUtilities.UnHookJob();
+
+    private void CreateAndCallbackScreenshot(Delegates.ParameterizedHookCallback<string>? screenshotCallback,
+        bool saveImage = false)
+    {
+        if (screenshotCallback.HasNoValue()) throw new ArgumentNullException(nameof(screenshotCallback));
+        var imgSource = _screenshotApi.CaptureWindow();
+        var base64Image = ConvertImageToBase64(imgSource);
+        screenshotCallback.Value()(base64Image);
+        if (saveImage)
+#pragma warning disable CA1416
+            imgSource.Save(
+                $@"D:\Screenshots\{DateTime.UtcNow.ToString("dd:MM:yyyy hh:mm:ss tt").Replace(":", "_")}.png",
+                ImageFormat.Png);
+#pragma warning restore CA1416
+    }
+
+    private string ConvertImageToBase64(Image image)
+    {
+        using var memoryStream = new MemoryStream();
+#pragma warning disable CA1416
+        image.Save(memoryStream, ImageFormat.Png);
+#pragma warning restore CA1416
+        var imageBytes = memoryStream.ToArray();
+        var base64String = Convert.ToBase64String(imageBytes);
+        return base64String;
+    }
 }

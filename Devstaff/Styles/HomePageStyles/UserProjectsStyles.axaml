@@ -1,0 +1,80 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	<Design.PreviewWith>
+		<Border Classes="ProjectUnitContainer" Width="500">
+			<Grid ColumnDefinitions="auto,*">
+				<Image Classes="ProjectUnitControlImage"
+				       Source="/Assets/Images/play-button.png"/>
+				<Border Grid.Column="0" Classes="ProjectUnitBlock">
+					<Grid ColumnDefinitions="6*,6*">
+						<Label Content="Avionte"
+						       Classes="ProjectUnitNameTag"/>
+						<Label Grid.Column="0" Content="00:00"
+						       Classes="ProjectUnitTimeTag"/>
+					</Grid>
+				</Border>
+			</Grid>
+		</Border>
+	</Design.PreviewWith>
+	<Style Selector="Grid.ProjectsContainer">
+		<Setter Property="Row" Value="6"/>
+		<Setter Property="VerticalAlignment" Value="Stretch"/>
+	</Style>
+	<Style Selector="ScrollViewer.ProjectsScroll">
+		<Setter Property="Grid.Row" Value="0"/>
+	</Style>
+	<Style Selector="Border.ProjectUnitContainer">
+		<Setter Property="Padding" Value="30 10 30 10"/>
+		<Setter Property="BorderBrush" Value="LightGray"/>
+		<Setter Property="BorderThickness" Value="0 0 0 1"/>
+		<Setter Property="Cursor" Value="Hand"/>
+		<Setter Property="Background" Value="Transparent"/>
+		<Style Selector="^:pointerover">
+			<Setter Property="Background" Value="#F0F4F7"/>
+			<Style Selector="^ > Grid.ProjectGrid > Image.ProjectUnitControlImage">
+				<Setter Property="Source" Value="/Assets/Images/play-button.png"/>
+			</Style>
+		</Style>
+		<Style Selector="^.Running">
+			<Setter Property="Background" Value="#1B81E9"/>
+			<Style Selector="^ > Grid.ProjectGrid">
+				<Style Selector="^ > Image.ProjectUnitControlImage">
+					<Setter Property="Source" Value="/Assets/Images/stop-button.png"/>
+				</Style>
+				<Style Selector="^ > Border.ProjectUnitBlock > Grid.ProjectInfoGrid">
+					<Style Selector="^ > Label.ProjectUnitNameTag, ^ > Label.ProjectUnitTimeTag">
+						<Setter Property="Foreground" Value="White"/>
+					</Style>
+				</Style>
+			</Style>
+		</Style>
+		<Style Selector="^.Selected">
+			<Setter Property="Background" Value="#C6DFF9"/>
+			<Style Selector="^ > Grid.ProjectGrid > Image.ProjectUnitControlImage">
+				<Setter Property="Source" Value="/Assets/Images/play-button.png"/>
+			</Style>
+		</Style>
+	</Style>
+	<Style Selector="Image.ProjectUnitControlImage">
+		<Setter Property="Width" Value="20"/>
+		<Setter Property="Height" Value="20"/>
+		<Setter Property="Grid.Column" Value="0"/>
+	</Style>
+	<Style Selector="Border.ProjectUnitBlock">
+		<Setter Property="Grid.Column" Value="1"/>
+		<Setter Property="VerticalAlignment" Value="Center"/>
+		<Setter Property="Padding" Value="15 0 0 0"/>
+	</Style>
+	<Style Selector="Label.ProjectUnitNameTag">
+		<Setter Property="Grid.Column" Value="0"/>
+		<Setter Property="HorizontalAlignment" Value="Left"/>
+		<Setter Property="Foreground" Value="Black"/>
+		<Setter Property="FontSize" Value="14"/>
+	</Style>
+	<Style Selector="Label.ProjectUnitTimeTag">
+		<Setter Property="Grid.Column" Value="1"/>
+		<Setter Property="HorizontalAlignment" Value="Right"/>
+		<Setter Property="Foreground" Value="Black"/>
+		<Setter Property="FontSize" Value="14"/>
+	</Style>
+</Styles>

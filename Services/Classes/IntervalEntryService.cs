@@ -6,6 +6,8 @@ namespace Services.Classes;
 
 public class IntervalEntryService : GenericService<IntervalEntry>, IIntervalEntryService
 {
-	public IntervalEntryService(IGenericRepository<IntervalEntry> genericRepository) 
-		: base(genericRepository ?? throw new ArgumentNullException(nameof(genericRepository))) { }
+    public IntervalEntryService(IGenericRepository<IntervalEntry> genericRepository)
+        : base(genericRepository ?? throw new ArgumentNullException(nameof(genericRepository)))
+    {
+    }
 }
