@@ -55,10 +55,6 @@ public static class Gdi32Util
 public static class Delegates
 {
     public delegate IntPtr LowLevelProc(int nCode, int wParam, IntPtr lParam);
-
-    public delegate void HookCallback();
-
-    public delegate void ParameterizedHookCallback<in TYpe>(TYpe param);
 }
 
 public static class HookUtilities

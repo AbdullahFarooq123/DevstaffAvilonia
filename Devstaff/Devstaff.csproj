@@ -53,6 +53,6 @@
     <ProjectReference Include="..\HelperServices\HelperServices.csproj" />
     <ProjectReference Include="..\Repositories\Repositories.csproj" />
     <ProjectReference Include="..\Services\Services.csproj" />
-    <ProjectReference Include="..\OSApi\OSApi.csproj" />
+    <ProjectReference Include="..\WinApi\WinApi.csproj" />
   </ItemGroup>
 </Project>

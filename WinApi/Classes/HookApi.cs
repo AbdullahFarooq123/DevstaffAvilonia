@@ -10,7 +10,7 @@ public class HookApi : IHookApi
     private IntPtr _ptrHook = IntPtr.Zero;
     private Delegates.LowLevelProc? _lowLevelProc;
 
-    public void Hook(IEnumerable<int> validEventIds, HookId hookId, Delegates.HookCallback? callback)
+    public void Hook(IEnumerable<int> validEventIds, HookId hookId, EventHandler? callback)
     {
         _lowLevelProc = (nCode, wp, lp) =>
         {
@@ -18,7 +18,7 @@ public class HookApi : IHookApi
             {
                 var vkCode = Marshal.ReadInt32(lp);
                 Debug.WriteLine($"Event Occurred : {vkCode}");
-                callback?.Invoke();
+                callback?.Invoke(null, EventArgs.Empty);
             }
             else if (nCode < 0)
             {

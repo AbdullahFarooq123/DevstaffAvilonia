@@ -22,7 +22,7 @@ public class WinMouseListener : IMouseListener
         };
     }
 
-    public void HookJob(Delegates.HookCallback? callback) =>
+    public void HookJob(EventHandler? callback) =>
         _hookApi.Hook(_validEventIds, HookId.WH_MOUSE_LL, callback);
 
     public void UnHookJob() =>

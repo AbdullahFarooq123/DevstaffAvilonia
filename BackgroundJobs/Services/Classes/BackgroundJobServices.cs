@@ -24,9 +24,9 @@ public class BackgroundJobService : IBackgroundJobService
     private TimerCallback? _activityTimeCallback;
     private TimerCallback? _idleTimeCallback;
     private TimerCallback? _dataSyncCallback;
-    private Delegates.ParameterizedHookCallback<string>? _screenshotsActivityCallback;
-    private Delegates.HookCallback? _mouseActivityCallback;
-    private Delegates.HookCallback? _keyboardActivityCallback;
+    private EventHandler<string>? _screenshotsActivityCallback;
+    private EventHandler? _mouseActivityCallback;
+    private EventHandler? _keyboardActivityCallback;
 
     #endregion CallbackObj
 
@@ -60,9 +60,9 @@ public class BackgroundJobService : IBackgroundJobService
         TimerCallback activityTimeCallback,
         TimerCallback idleTimeCallback,
         TimerCallback dataSyncCallback,
-        Delegates.ParameterizedHookCallback<string> screenshotsActivityCallback,
-        Delegates.HookCallback mouseActivityCallback,
-        Delegates.HookCallback keyboardActivityCallback)
+        EventHandler<string> screenshotsActivityCallback,
+        EventHandler mouseActivityCallback,
+        EventHandler keyboardActivityCallback)
     {
         _activityTimeCallback = activityTimeCallback ?? throw new ArgumentNullException(nameof(activityTimeCallback));
         _idleTimeCallback = idleTimeCallback ?? throw new ArgumentNullException(nameof(idleTimeCallback));

@@ -9,7 +9,8 @@
   <ItemGroup>
     <ProjectReference Include="..\DataModels\DataModels.csproj" />
     <ProjectReference Include="..\GlobalExtensionMethods\GlobalExtensionMethods.csproj" />
-    <ProjectReference Include="..\OSApi\OSApi.csproj" />
+    <ProjectReference Include="..\WinApi\WinApi.csproj" />
+    <ProjectReference Include="..\XApi\XApi.csproj" />
   </ItemGroup>
 
 </Project>

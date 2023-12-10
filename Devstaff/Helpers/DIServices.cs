@@ -15,9 +15,12 @@ using Repositories.Interfaces;
 using Services.Classes;
 using Services.Interfaces;
 using System;
+using System.Runtime.InteropServices;
 using DataModels;
 using WinApi.Classes;
 using WinApi.Interfaces;
+using XApi.Classes;
+using XApi.Interfaces;
 
 namespace DevStaff.Helpers;
 
@@ -57,10 +60,18 @@ public static class DiServices
         serviceCollection.AddSingleton<IUserActivityService, UserActivityService>();
         serviceCollection.AddSingleton<IUserService, UserService>();
 
-        serviceCollection.AddSingleton<IKeyboardListener, WinKeyboardListener>();
-        serviceCollection.AddSingleton<IMouseListener, WinMouseListener>();
-        serviceCollection.AddSingleton<IScreenshotListener, WinScreenshotListener>();
-        serviceCollection.AddSingleton<IScreenshotApi, ScreenshotApi>();
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+            serviceCollection.AddSingleton<IKeyboardListener, WinKeyboardListener>();
+            serviceCollection.AddSingleton<IMouseListener, WinMouseListener>();
+            serviceCollection.AddSingleton<IScreenshotListener, WinScreenshotListener>();
+        }
+        else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+        {
+            serviceCollection.AddSingleton<IKeyboardListener, XKeyboardListener>();
+            serviceCollection.AddSingleton<IMouseListener, XMouseListener>();
+            serviceCollection.AddSingleton<IScreenshotListener, XScreenshotListener>();
+        }
 
         serviceCollection.AddSingleton<ICleanupService, CleanupService>();
         serviceCollection.AddSingleton<IBackgroundJobService, BackgroundJobService>();
@@ -68,6 +79,9 @@ public static class DiServices
 
         serviceCollection.AddTransient<ITimerUtilities, TimerUtilities>();
         serviceCollection.AddTransient<IHookApi, HookApi>();
+        serviceCollection.AddTransient<IInputDeviceApi, InputDeviceApi>();
+        serviceCollection.AddSingleton<IScreenshotApi, ScreenshotApi>();
+        serviceCollection.AddSingleton<IXScreenshotApi, XScreenshotApi>();
 
         return serviceCollection.GetContainer();
     }

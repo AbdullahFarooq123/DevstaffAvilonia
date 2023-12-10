@@ -21,20 +21,19 @@ public class WinScreenshotListener : IScreenshotListener
         _screenshotApi = screenshotApi ?? throw new ArgumentNullException(nameof(screenshotApi));
     }
 
-    public void HookJob(Delegates.ParameterizedHookCallback<string>? screenshotCallback) =>
+    public void HookJob(EventHandler<string>? callback) =>
         _timerUtilities.HookJob(TimerUtilities.MinutesToMillis(IntervalTimeMin), 0, _ =>
-            CreateAndCallbackScreenshot(screenshotCallback, true));
+            CreateAndCallbackScreenshot(callback, true));
 
     public void UnHookJob() =>
         _timerUtilities.UnHookJob();
 
-    private void CreateAndCallbackScreenshot(Delegates.ParameterizedHookCallback<string>? screenshotCallback,
-        bool saveImage = false)
+    private void CreateAndCallbackScreenshot(EventHandler<string>? callback, bool saveImage = false)
     {
-        if (screenshotCallback.HasNoValue()) throw new ArgumentNullException(nameof(screenshotCallback));
+        if (callback.HasNoValue()) throw new ArgumentNullException(nameof(callback));
         var imgSource = _screenshotApi.CaptureWindow();
         var base64Image = ConvertImageToBase64(imgSource);
-        screenshotCallback.Value()(base64Image);
+        callback?.Invoke(null, base64Image);
         if (saveImage)
 #pragma warning disable CA1416
             imgSource.Save(

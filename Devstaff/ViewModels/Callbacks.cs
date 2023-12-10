@@ -78,7 +78,7 @@ public partial class HomeViewModel
         _backgroundJobService.ResetIdleTimeJobInterval();
     }
 
-    private static void ScreenshotCallback(string content) =>
+    private static void ScreenshotCallback(object? sender, string content) =>
         Session.Screenshots.Add(new Screenshot
         {
             Name = DateTime.UtcNow.ToString("dd:MM:yyyy HH:mm tt").Replace(":", "_"),
@@ -88,8 +88,11 @@ public partial class HomeViewModel
             IsInSync = false
         });
 
-    private void MouseActivityCallback() => SetUserInputActivity(ActivityIndicator.Mouse);
-    private void KeyboardActivityCallback() => SetUserInputActivity(ActivityIndicator.Keyboard);
+    private void MouseActivityCallback(object? sender, EventArgs eventArgs) =>
+        SetUserInputActivity(ActivityIndicator.Mouse);
+
+    private void KeyboardActivityCallback(object? sender, EventArgs eventArgs) =>
+        SetUserInputActivity(ActivityIndicator.Keyboard);
 
     #endregion TimerCallbacks
 }

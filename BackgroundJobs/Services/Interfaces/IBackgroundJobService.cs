@@ -8,9 +8,9 @@ public interface IBackgroundJobService
         TimerCallback activityTimeCallback,
         TimerCallback idleTimeCallback,
         TimerCallback dataSyncCallback,
-        Delegates.ParameterizedHookCallback<string> screenshotsActivityCallback,
-        Delegates.HookCallback mouseActivityCallback,
-        Delegates.HookCallback keyboardActivityCallback
+        EventHandler<string> screenshotsActivityCallback,
+        EventHandler mouseActivityCallback,
+        EventHandler keyboardActivityCallback
     );
 
     public void HookJobs();
