@@ -10,7 +10,7 @@ public class ProjectUi : INotifyPropertyChanged
     public event PropertyChangedEventHandler? PropertyChanged;
 
     private void NotifyPropertyChange(string propertyName) =>
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        PropertyChanged?.Invoke(sender: this, e: new PropertyChangedEventArgs(propertyName));
 
     public int Id { get; init; }
     public required string Name { get; init; }
@@ -20,7 +20,7 @@ public class ProjectUi : INotifyPropertyChanged
     public bool Selected => IsSelected && !IsRunning;
 
     public string Time =>
-        UserActivity.HasValue() ? $"{UserActivity.Value().TimeSpent:hh\\:mm}" : $"{TimeSpan.Zero:hh\\:mm}";
+        UserActivity.HasValue() ? $@"{UserActivity.Value().TimeSpent:hh\:mm}" : $@"{TimeSpan.Zero:hh\:mm}";
 
     public void NotifyTimeChanged() => NotifyPropertyChange(nameof(Time));
     public void NotifyIsSelected() => NotifyPropertyChange(nameof(IsSelected));

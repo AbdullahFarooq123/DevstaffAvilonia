@@ -6,34 +6,22 @@ namespace BackgroundJobs.Services.Classes;
 public class TimerUtilities : ITimerUtilities
 {
     private Timer? _timer;
-    private int _delayInMillis;
+    private int _intervalMs;
 
-    public void HookJob(int delayInMillis, int dueTimeInMillis, TimerCallback? timerCallback) =>
-        _timer = new Timer(
-            timerCallback ?? throw new InvalidOperationException("Callback is null"),
-            null,
-            dueTimeInMillis,
-            delayInMillis);
+    public void HookJob(int intervalMs, TimerCallback callback, int delayMs) =>
+        _timer = new Timer(callback: callback, period: intervalMs, state: null, dueTime: delayMs);
 
     public async void UnHookJob()
     {
-        if (_timer.HasValue())
-            await _timer.Value().DisposeAsync();
+        if (_timer.HasValue()) await _timer.Value().DisposeAsync();
         _timer = null;
     }
 
-    public void ChangeTimerInterval(int delayInMillis) =>
-        _timer?.Change(Timeout.Infinite, _delayInMillis = delayInMillis);
+    public void ChangeTimerInterval(int intervalMs) =>
+        _timer?.Change(dueTime: Timeout.Infinite, period: _intervalMs = intervalMs);
 
-    public int GetCurrentTimerInterval() =>
-        _delayInMillis;
-
-    public static int MinutesToMillis(int minutes) =>
-        minutes * 60000;
-
-    public static int SecondsToMillis(int seconds) =>
-        seconds * 1000;
-
-    public static int MinutesToSeconds(int minutes) =>
-        minutes * 60;
+    public int GetCurrentTimerInterval() => _intervalMs;
+    public static int MinToMs(int min) => min * 60000;
+    public static int MinToSec(int min) => min * 60;
+    public static int SecToMs(int sec) => sec * 1000;
 }

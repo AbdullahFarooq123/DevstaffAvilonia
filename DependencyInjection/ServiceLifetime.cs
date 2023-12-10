@@ -2,6 +2,6 @@
 
 public enum ServiceLifetime
 {
-	Transient,
-	Singleton
+    Transient,
+    Singleton
 }

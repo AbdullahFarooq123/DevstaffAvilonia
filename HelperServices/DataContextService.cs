@@ -40,14 +40,14 @@ public class DataContextServices : IDataContextService
     public async Task<User?> LoadUser(int? userId)
     {
         if (!userId.HasValue) return null;
-        var user = await _userService.GetByIdAsync(userId.Value);
+        var user = await _userService.GetByIdAsync(id: userId.Value);
         return user.HasNoValue() ? null : user;
     }
 
     public async Task<List<Project>?> LoadProjects(int? userId)
     {
         if (userId.HasValue)
-            return await _projectService.GetByUserId(userId.Value).Include(project => project.UserActivity)
+            return await _projectService.GetByUserId(userId: userId.Value).Include(project => project.UserActivity)
                 .ToListAsync();
         return null;
     }
@@ -67,14 +67,14 @@ public class DataContextServices : IDataContextService
     {
         if (userActivity.HasValue())
         {
-            var userActivityEntity = await _userActivityService.GetByIdAsync(userActivity.Id);
+            var userActivityEntity = await _userActivityService.GetByIdAsync(id: userActivity.Id);
             if (userActivityEntity.HasValue())
             {
                 userActivityEntity.Value().TimeSpent = userActivity.TimeSpent;
                 userActivityEntity.Value().IdolTime = userActivity.IdolTime;
                 userActivityEntity.Value().Clicks = userActivity.Clicks;
                 userActivityEntity.Value().KeyPresses = userActivity.KeyPresses;
-                await _userActivityService.UpdateAsync(userActivityEntity.Value());
+                await _userActivityService.UpdateAsync(entity: userActivityEntity.Value());
             }
         }
     }
@@ -92,7 +92,7 @@ public class DataContextServices : IDataContextService
             UserActivityId = activityId.Value,
             CreatedAt = DateTime.UtcNow
         };
-        await _intervalEntryService.InsertAsync(userIntervalEntity);
+        await _intervalEntryService.InsertAsync(entity: userIntervalEntity);
         return userIntervalEntity;
     }
 
@@ -102,14 +102,14 @@ public class DataContextServices : IDataContextService
         if (intervalEntryId.HasValue && screenshotList.HasValue() && screenshotList.Any())
         {
             screenshotList.ToList().ForEach(obj => obj.ActivityEntryId = intervalEntryId.Value);
-            await _screenshotService.InsertManyAsync(screenshotList);
+            await _screenshotService.InsertManyAsync(entities: screenshotList);
         }
     }
 
     public async Task<UserActivity?> InsertActivity(UserActivity userActivity)
     {
         if (!userActivity.HasValue()) return null;
-        await _userActivityService.InsertAsync(userActivity);
+        await _userActivityService.InsertAsync(entity: userActivity);
         return userActivity;
     }
 
@@ -123,7 +123,7 @@ public class DataContextServices : IDataContextService
     public async Task<Project?> InsertProject(Project project)
     {
         if (!project.HasValue()) return null;
-        await _projectService.InsertAsync(project);
+        await _projectService.InsertAsync(entity: project);
         return project;
     }
 

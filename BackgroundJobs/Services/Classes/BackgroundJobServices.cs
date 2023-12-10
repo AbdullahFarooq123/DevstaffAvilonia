@@ -1,7 +1,7 @@
 ﻿using BackgroundJobs.ActivityListeners.Interfaces;
-using WinApi.Utilities;
 using BackgroundJobs.Services.Interfaces;
 using DataModels;
+using static BackgroundJobs.Services.Classes.TimerUtilities;
 
 namespace BackgroundJobs.Services.Classes;
 
@@ -9,8 +9,8 @@ public class BackgroundJobService : IBackgroundJobService
 {
     #region JobObj
 
-    private readonly ITimerUtilities _projectActivityTimeJob;
-    private readonly ITimerUtilities _projectIdleTimeJob;
+    private readonly ITimerUtilities _activityTimeJob;
+    private readonly ITimerUtilities _idleTimeJob;
     private readonly ITimerUtilities _localDataSyncJob;
     private readonly IScreenshotListener _screenShotListener;
     private readonly IMouseListener _mouseListener;
@@ -21,30 +21,37 @@ public class BackgroundJobService : IBackgroundJobService
 
     #region CallbackObj
 
-    private TimerCallback? _activityTimeCallback;
-    private TimerCallback? _idleTimeCallback;
-    private TimerCallback? _dataSyncCallback;
-    private EventHandler<string>? _screenshotsActivityCallback;
-    private EventHandler? _mouseActivityCallback;
-    private EventHandler? _keyboardActivityCallback;
+    private TimerCallback _activityTimeCallback = null!;
+    private TimerCallback _idleTimeCallback = null!;
+    private TimerCallback _dataSyncCallback = null!;
+    private EventHandler<string> _screenshotsCallback = null!;
+    private EventHandler _mouseActCallback = null!;
+    private EventHandler _keyboardActCallback = null!;
 
     #endregion CallbackObj
 
+    #region Private Members
+
     private bool _servicesRegistered;
+
+    private const string ServiceNotRegisteredError = "The callbacks have not been registered.\n" +
+                                                     "Use RegisterCallbacks to register callbacks before hooking to jobs.";
+
+    #endregion Private Members
 
     #region Ctor
 
     public BackgroundJobService(
-        ITimerUtilities projectActivityTimeJob,
-        ITimerUtilities projectIdleTimeJob,
+        ITimerUtilities activityTimeJob,
+        ITimerUtilities idleTimeJob,
         ITimerUtilities localDataSyncJob,
         IScreenshotListener screenShotListener,
         IMouseListener mouseListener,
         IKeyboardListener keyboardListener,
         AppSettings appSettings)
     {
-        _projectActivityTimeJob = projectActivityTimeJob;
-        _projectIdleTimeJob = projectIdleTimeJob;
+        _activityTimeJob = activityTimeJob;
+        _idleTimeJob = idleTimeJob;
         _localDataSyncJob = localDataSyncJob;
         _screenShotListener = screenShotListener;
         _mouseListener = mouseListener;
@@ -60,42 +67,34 @@ public class BackgroundJobService : IBackgroundJobService
         TimerCallback activityTimeCallback,
         TimerCallback idleTimeCallback,
         TimerCallback dataSyncCallback,
-        EventHandler<string> screenshotsActivityCallback,
-        EventHandler mouseActivityCallback,
-        EventHandler keyboardActivityCallback)
+        EventHandler<string> screenshotsCallback,
+        EventHandler mouseActCallback,
+        EventHandler keyboardActCallback)
     {
         _activityTimeCallback = activityTimeCallback ?? throw new ArgumentNullException(nameof(activityTimeCallback));
         _idleTimeCallback = idleTimeCallback ?? throw new ArgumentNullException(nameof(idleTimeCallback));
         _dataSyncCallback = dataSyncCallback ?? throw new ArgumentNullException(nameof(dataSyncCallback));
-        _screenshotsActivityCallback = screenshotsActivityCallback ??
-                                       throw new ArgumentNullException(nameof(screenshotsActivityCallback));
-        _mouseActivityCallback =
-            mouseActivityCallback ?? throw new ArgumentNullException(nameof(mouseActivityCallback));
-        _keyboardActivityCallback = keyboardActivityCallback ??
-                                    throw new ArgumentNullException(nameof(keyboardActivityCallback));
+        _screenshotsCallback = screenshotsCallback ?? throw new ArgumentNullException(nameof(screenshotsCallback));
+        _mouseActCallback = mouseActCallback ?? throw new ArgumentNullException(nameof(mouseActCallback));
+        _keyboardActCallback = keyboardActCallback ?? throw new ArgumentNullException(nameof(keyboardActCallback));
         _servicesRegistered = true;
     }
 
     public void HookJobs()
     {
-        if (!_servicesRegistered)
-            throw new InvalidOperationException(
-                "The callbacks have not been registered.\nUse RegisterCallbacks to register callbacks before hooking to jobs.");
-        _projectActivityTimeJob.HookJob(TimerUtilities.SecondsToMillis(1), TimerUtilities.SecondsToMillis(1),
-            _activityTimeCallback);
-        _projectIdleTimeJob.HookJob(TimerUtilities.MinutesToMillis(_appSettings.AllowedIdleTimeMin),
-            TimerUtilities.MinutesToMillis(_appSettings.AllowedIdleTimeMin), _idleTimeCallback);
-        _localDataSyncJob.HookJob(TimerUtilities.MinutesToMillis(11), TimerUtilities.MinutesToMillis(11),
-            _dataSyncCallback);
-        _screenShotListener.HookJob(_screenshotsActivityCallback);
-        _mouseListener.HookJob(_mouseActivityCallback);
-        _keyboardListener.HookJob(_keyboardActivityCallback);
+        if (!_servicesRegistered) throw new InvalidOperationException(message: ServiceNotRegisteredError);
+        _activityTimeJob.HookJob(intervalMs: SecToMs(sec: 1), callback: _activityTimeCallback);
+        _idleTimeJob.HookJob(intervalMs: MinToMs(min: _appSettings.AllowedIdleTimeMin), callback: _idleTimeCallback);
+        _localDataSyncJob.HookJob(MinToMs(min: _appSettings.SyncIntervalMin), callback: _dataSyncCallback);
+        _screenShotListener.HookJob(callback: _screenshotsCallback);
+        _mouseListener.HookJob(callback: _mouseActCallback);
+        _keyboardListener.HookJob(callback: _keyboardActCallback);
     }
 
     public void UnHookJobs()
     {
-        _projectActivityTimeJob.UnHookJob();
-        _projectIdleTimeJob.UnHookJob();
+        _activityTimeJob.UnHookJob();
+        _idleTimeJob.UnHookJob();
         _localDataSyncJob.UnHookJob();
         _screenShotListener.UnHookJob();
         _mouseListener.UnHookJob();
@@ -106,11 +105,11 @@ public class BackgroundJobService : IBackgroundJobService
 
     #region Helpers
 
-    public void ResetIdleTimeJobInterval() => ChangeTimerIntervalSec(_projectIdleTimeJob, 1);
-    public int GetIdleTimeInterval() => _projectIdleTimeJob.GetCurrentTimerInterval();
+    public void ResetIdleTimeJobInterval() => ChangeTimerIntervalSec(_idleTimeJob, 1);
+    public int GetIdleTimeInterval() => _idleTimeJob.GetCurrentTimerInterval();
 
     private static void ChangeTimerIntervalSec(ITimerUtilities timerUtilities, int seconds) =>
-        timerUtilities.ChangeTimerInterval(TimerUtilities.SecondsToMillis(seconds));
+        timerUtilities.ChangeTimerInterval(intervalMs: SecToMs(sec: seconds));
 
     #endregion Helpers
 }

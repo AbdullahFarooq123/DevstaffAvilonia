@@ -134,9 +134,9 @@ public partial class HomeViewModel : BaseViewModel
         _backgroundJobService.RegisterCallbacks(
             activityTimeCallback: RunProjectCallback,
             idleTimeCallback: IdleTimeCallback,
-            screenshotsActivityCallback: ScreenshotCallback,
-            mouseActivityCallback: MouseActivityCallback,
-            keyboardActivityCallback: KeyboardActivityCallback,
+            screenshotsCallback: ScreenshotCallback,
+            mouseActCallback: MouseActivityCallback,
+            keyboardActCallback: KeyboardActivityCallback,
             dataSyncCallback: LocalIntervalActivitiesCallback
         );
     }

@@ -8,9 +8,9 @@ public interface IBackgroundJobService
         TimerCallback activityTimeCallback,
         TimerCallback idleTimeCallback,
         TimerCallback dataSyncCallback,
-        EventHandler<string> screenshotsActivityCallback,
-        EventHandler mouseActivityCallback,
-        EventHandler keyboardActivityCallback
+        EventHandler<string> screenshotsCallback,
+        EventHandler mouseActCallback,
+        EventHandler keyboardActCallback
     );
 
     public void HookJobs();

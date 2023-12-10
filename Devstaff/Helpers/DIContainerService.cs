@@ -12,7 +12,7 @@ public static class DiContainerService
     {
         var dbContext = (DevStaffDbContext)container.GetService<DbContext>();
         if (dbContext.HasNoValue())
-            throw new InvalidOperationException($"Service : {nameof(DbContext)} not found");
+            throw new InvalidOperationException(message: $"Service : {nameof(DbContext)} not found");
         await dbContext.Value().Database.EnsureCreatedAsync();
     }
 }

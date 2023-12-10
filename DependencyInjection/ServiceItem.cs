@@ -31,19 +31,17 @@ public class ServiceItem
     public void SetImplementation(object? implementation)
     {
         if (implementation.HasNoValue())
-            throw new ArgumentNullException(nameof(implementation));
+            throw new ArgumentNullException(paramName: nameof(implementation));
         if (implementation.Value().GetType() != ImplementationType)
             throw new InvalidOperationException(
+                message:
                 $"Implementation type mismatch for obj : {nameof(implementation)}, type : {implementation.Value().GetType()}.\n" +
                 $"The registered implementation type is : {ImplementationType.Name}");
         Implementation = implementation;
     }
 
-    public static bool operator ==(ServiceItem serviceItem, Type type) =>
-        serviceItem.Equals(type);
-
-    public static bool operator !=(ServiceItem serviceItem, Type type) =>
-        serviceItem.Equals(type);
+    public static bool operator ==(ServiceItem serviceItem, Type type) => serviceItem.Equals(type: type);
+    public static bool operator !=(ServiceItem serviceItem, Type type) => serviceItem.Equals(type: type);
 
     public override bool Equals(object? type)
     {
@@ -54,4 +52,14 @@ public class ServiceItem
     public override int GetHashCode() => 0;
 
     #endregion Public Methods
+
+    #region Private Methods
+
+    private bool Equals(Type type)
+    {
+        if (type.HasNoValue()) return false;
+        return ServiceType == type.Value() || ImplementationType == type.Value();
+    }
+
+    #endregion Private Methods
 }

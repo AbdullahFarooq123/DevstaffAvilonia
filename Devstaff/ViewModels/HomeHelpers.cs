@@ -72,9 +72,9 @@ public partial class HomeViewModel
         });
     }
 
-    private static void SelectProject(ProjectUi projectUiDto)
+    private static void SelectProject(ProjectUi projectUi)
     {
-        Session.SelectedProject = projectUiDto;
+        Session.SelectedProject = projectUi;
         Session.SelectedProject.IsSelected = true;
     }
 

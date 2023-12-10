@@ -7,7 +7,7 @@ namespace Repositories.Classes;
 public class IntervalEntryRepository : GenericRepository<IntervalEntry>, IIntervalEntryRepository
 {
     public IntervalEntryRepository(DbContext context)
-        : base(context ?? throw new ArgumentNullException(nameof(context)))
+        : base(context: context ?? throw new ArgumentNullException(nameof(context)))
     {
     }
 }
