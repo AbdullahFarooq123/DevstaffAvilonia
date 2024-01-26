@@ -10,7 +10,7 @@ public partial class HomeViewModel
 {
     #region UICallbacks
 
-    private void SelectProjectControl(ProjectUi projectUiDto)
+    private void SelectProjectControl(ProjectUi projectUi)
     {
         if (Session.SelectedProject.HasValue() && Session.SelectedProject.Value().IsRunning)
         {
@@ -19,19 +19,19 @@ public partial class HomeViewModel
         }
 
         ResetProjects();
-        SelectProject(projectUiDto);
+        SelectProject(projectUi: projectUi);
     }
 
-    private async void SelectAndRunProjectControl(ProjectUi projectUiDto)
+    private async void SelectAndRunProjectControl(ProjectUi projectUi)
     {
         if (Session.SelectedProject.HasValue() && Session.SelectedProject.Value().IsRunning)
         {
             await StopProjectActivities();
-            if (Session.SelectedProject.Value().Id == projectUiDto.Id)
+            if (Session.SelectedProject.Value().Id == projectUi.Id)
                 return;
         }
 
-        SelectProjectControl(projectUiDto);
+        SelectProjectControl(projectUi: projectUi);
         RunSelectedProjectControl();
     }
 
@@ -58,12 +58,12 @@ public partial class HomeViewModel
     {
         await UpdateIntervalActivity();
         CreateNewIntervalEntries();
-        NotifyPropertyChange(nameof(LastUpdatedAt));
+        NotifyPropertyChange(propertyName: nameof(LastUpdatedAt));
     }
 
     private void RunProjectCallback(object? sender)
     {
-        IncrementUserActivity(ActivityIndicator.WorkingTime);
+        IncrementUserActivity(activityIndicator: ActivityIndicator.WorkingTime);
         NotifySelectedProjectTime();
         NotifyTodayTime();
         NotifyProjectTime();
@@ -73,15 +73,15 @@ public partial class HomeViewModel
     {
         var seconds = 1;
         if (_backgroundJobService.GetIdleTimeInterval() == _appSettings.AllowedIdleTimeMin)
-            seconds = TimerUtilities.MinutesToSeconds(_appSettings.AllowedIdleTimeMin);
-        IncrementUserActivity(ActivityIndicator.IdleTime, seconds);
+            seconds = TimerUtilities.MinToSec(min: _appSettings.AllowedIdleTimeMin);
+        IncrementUserActivity(activityIndicator: ActivityIndicator.IdleTime, incrementBy: seconds);
         _backgroundJobService.ResetIdleTimeJobInterval();
     }
 
     private static void ScreenshotCallback(object? sender, string content) =>
-        Session.Screenshots.Add(new Screenshot
+        Session.Screenshots.Add(item: new Screenshot
         {
-            Name = DateTime.UtcNow.ToString("dd:MM:yyyy HH:mm tt").Replace(":", "_"),
+            Name = DateTime.UtcNow.ToFileName(),
             Content = content,
             ProjectId = Session.SelectedProject.Value().Id,
             CreatedAt = DateTime.UtcNow,
@@ -89,10 +89,10 @@ public partial class HomeViewModel
         });
 
     private void MouseActivityCallback(object? sender, EventArgs eventArgs) =>
-        SetUserInputActivity(ActivityIndicator.Mouse);
+        SetUserInputActivity(activityIndicator: ActivityIndicator.Mouse);
 
     private void KeyboardActivityCallback(object? sender, EventArgs eventArgs) =>
-        SetUserInputActivity(ActivityIndicator.Keyboard);
+        SetUserInputActivity(activityIndicator: ActivityIndicator.Keyboard);
 
     #endregion TimerCallbacks
 }

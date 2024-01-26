@@ -8,10 +8,10 @@ internal static class LinuxCmdUtil
     {
         try
         {
-            var startInfo = GetProcessStartInfo(command);
-            using var process = Process.Start(startInfo);
+            var startInfo = GetProcessStartInfo(command: command);
+            using var process = Process.Start(startInfo: startInfo);
             using var reader = process?.StandardOutput ??
-                               throw new InvalidOperationException("Can't start linux process");
+                               throw new InvalidOperationException(message: "Can't start linux process");
             return reader.ReadToEnd();
         }
         catch (Exception ex)
@@ -22,14 +22,14 @@ internal static class LinuxCmdUtil
 
     public static Process HookOutputCmd(string command, DataReceivedEventHandler eventCallback)
     {
-        var process = GetProcessWithCommand(command);
+        var process = GetProcessWithCommand(command: command);
         process.OutputDataReceived += eventCallback;
         return process;
     }
 
     public static void AwaitedCommandExec(string command)
     {
-        var process = GetProcessWithCommand(command);
+        var process = GetProcessWithCommand(command: command);
         process.Start();
         process.WaitForExit();
         process.Kill();
@@ -49,6 +49,6 @@ internal static class LinuxCmdUtil
     private static Process GetProcessWithCommand(string command) =>
         new()
         {
-            StartInfo = GetProcessStartInfo(command)
+            StartInfo = GetProcessStartInfo(command: command)
         };
 }

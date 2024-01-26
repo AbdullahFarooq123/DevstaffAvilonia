@@ -8,9 +8,9 @@ namespace Services.Classes;
 public class ProjectService : GenericService<Project>, IProjectService
 {
     public ProjectService(IGenericRepository<Project> genericRepository)
-        : base(genericRepository ?? throw new ArgumentNullException(nameof(genericRepository)))
+        : base(genericRepository: genericRepository ?? throw new ArgumentNullException(nameof(genericRepository)))
     {
     }
 
-    public IQueryable<Project> GetByUserId(int userId) => ((IProjectRepository)Repository).GetByUserId(userId);
+    public IQueryable<Project> GetByUserId(int userId) => ((IProjectRepository)Repository).GetByUserId(userId: userId);
 }

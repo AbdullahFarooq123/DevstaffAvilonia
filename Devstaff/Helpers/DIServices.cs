@@ -31,13 +31,14 @@ public static class DiServices
     public static DiContainer RegisterServices(this DiServiceCollection serviceCollection)
     {
         var configurationBuilder = GetAppSettings();
-        var connectionString = GetConnectionString(configurationBuilder);
-        Console.WriteLine(connectionString);
-        serviceCollection.AddSingleton<IConfiguration>(configurationBuilder);
-        serviceCollection.AddSingleton(new DbContextOptionsBuilder<DevStaffDbContext>().UseSqlite(connectionString)
-            .Options);
-        serviceCollection.AddSingleton(configurationBuilder.GetSection("WindowDimensions").Get<AppDimensions>());
-        serviceCollection.AddSingleton(configurationBuilder.GetSection("AppSettings").Get<AppSettings>());
+        var connectionString = GetConnectionString(config: configurationBuilder);
+        serviceCollection.AddSingleton<IConfiguration>(implementation: configurationBuilder);
+        serviceCollection.AddSingleton(implementation: new DbContextOptionsBuilder<DevStaffDbContext>()
+            .UseSqlite(connectionString: connectionString).Options);
+        serviceCollection.AddSingleton(implementation: configurationBuilder.GetSection(key: "WindowDimensions")
+            .Get<AppDimensions>());
+        serviceCollection.AddSingleton(implementation: configurationBuilder.GetSection(key: "AppSettings")
+            .Get<AppSettings>());
         serviceCollection.AddSingleton<HomeViewModel>();
 
         serviceCollection.AddSingleton<DbContext, DevStaffDbContext>();
@@ -60,13 +61,13 @@ public static class DiServices
         serviceCollection.AddSingleton<IUserActivityService, UserActivityService>();
         serviceCollection.AddSingleton<IUserService, UserService>();
 
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        if (RuntimeInformation.IsOSPlatform(osPlatform: OSPlatform.Windows))
         {
             serviceCollection.AddSingleton<IKeyboardListener, WinKeyboardListener>();
             serviceCollection.AddSingleton<IMouseListener, WinMouseListener>();
             serviceCollection.AddSingleton<IScreenshotListener, WinScreenshotListener>();
         }
-        else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+        else if (RuntimeInformation.IsOSPlatform(osPlatform: OSPlatform.Linux))
         {
             serviceCollection.AddSingleton<IKeyboardListener, XKeyboardListener>();
             serviceCollection.AddSingleton<IMouseListener, XMouseListener>();
@@ -93,20 +94,21 @@ public static class DiServices
     private static IConfigurationRoot GetAppSettings()
     {
         var appSettingsStream = System.Reflection.Assembly.GetExecutingAssembly()
-            .GetManifestResourceStream("Devstaff.appsettings.json");
+            .GetManifestResourceStream(name: "Devstaff.appsettings.json");
         if (appSettingsStream.HasNoValue())
-            throw new InvalidOperationException("appsettings.json not found.");
-        var configurationBuilder = new ConfigurationBuilder().AddJsonStream(appSettingsStream.Value()).Build();
+            throw new InvalidOperationException(message: "appsettings.json not found.");
+        var configurationBuilder = new ConfigurationBuilder().AddJsonStream(stream: appSettingsStream.Value()).Build();
         return configurationBuilder;
     }
 
     private static string GetConnectionString(IConfiguration config)
     {
-        var connectionString = config.GetSection("Database:ConnectionString").Value;
+        var connectionString = config.GetSection(key: "Database:ConnectionString").Value;
         if (connectionString.HasNoValue())
-            throw new InvalidOperationException("Section 'Database:ConnectionString' not found in appsettings.json");
-        var userHome = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-        connectionString = connectionString.Value().Replace("{path}", $"");
+            throw new InvalidOperationException(
+                message: "Section 'Database:ConnectionString' not found in appsettings.json");
+        var userHome = Environment.GetFolderPath(folder: Environment.SpecialFolder.UserProfile);
+        connectionString = connectionString.Value().Replace(oldValue: "{path}", newValue: $"");
         return connectionString;
     }
 

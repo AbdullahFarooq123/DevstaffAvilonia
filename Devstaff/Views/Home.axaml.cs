@@ -18,7 +18,7 @@ public partial class Home : Window
         if (sender is not Border border || DataContext is not HomeViewModel viewModel) return;
         if (border.Tag.HasNoValue()) return;
         if (GetProject(border.Tag, viewModel) is not { } project) return;
-        viewModel.SelectProjectCallback(project);
+        viewModel.SelectProjectCallback(project: project);
         viewModel.NotifySelectedProjectName();
         viewModel.NotifySelectedProjectTime();
         viewModel.NotifySelectedProjectRunning();
@@ -38,7 +38,7 @@ public partial class Home : Window
         if (sender is not Image image || DataContext is not HomeViewModel viewModel) return;
         if (image.Tag.HasNoValue()) return;
         if (GetProject(image.Tag, viewModel) is not { } project) return;
-        viewModel.SelectAndRunProjectCallback(project);
+        viewModel.SelectAndRunProjectCallback(project: project);
         viewModel.NotifySelectedProjectName();
         viewModel.NotifySelectedProjectTime();
         viewModel.NotifySelectedProjectRunning();
@@ -47,10 +47,10 @@ public partial class Home : Window
 
     private ProjectUi GetProject(object? tag, HomeViewModel viewModel)
     {
-        if (int.TryParse(tag.Value().ToString(), out var projectId))
-            return viewModel.GetProjectById(projectId) ??
-                   throw new InvalidOperationException($"No project found with id {projectId}");
-        throw new InvalidCastException("Project id is not an int");
+        if (int.TryParse(s: tag.Value().ToString(), result: out var projectId))
+            return viewModel.GetProjectById(projectId: projectId) ??
+                   throw new InvalidOperationException(message: $"No project found with id {projectId}");
+        throw new InvalidCastException(message: "Project id is not an int");
     }
 
     #endregion Events

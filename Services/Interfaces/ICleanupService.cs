@@ -2,7 +2,7 @@
 
 public interface ICleanupService
 {
-    public delegate Task EventCallback();
+    public delegate Task EventHandler();
 
-    public void SetCleanUpCallback(EventCallback e);
+    public void SetCleanUpCallback(EventHandler e);
 }

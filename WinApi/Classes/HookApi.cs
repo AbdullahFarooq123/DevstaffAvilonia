@@ -14,30 +14,37 @@ public class HookApi : IHookApi
     {
         _lowLevelProc = (nCode, wp, lp) =>
         {
-            if (IsValidEvent(nCode, wp, validEventIds))
+            if (IsValidEvent(nCode: nCode, wp: wp, validEventIds: validEventIds))
             {
-                var vkCode = Marshal.ReadInt32(lp);
-                Debug.WriteLine($"Event Occurred : {vkCode}");
-                callback?.Invoke(null, EventArgs.Empty);
+                var vkCode = Marshal.ReadInt32(ptr: lp);
+                Debug.WriteLine(message: $"Event Occurred : {vkCode}");
+                callback?.Invoke(sender: null, e: EventArgs.Empty);
             }
             else if (nCode < 0)
             {
                 Unhook();
-                _ptrHook = User32Util.SetWindowsHookEx((int)hookId, _lowLevelProc, IntPtr.Zero, 0);
-                Debug.WriteLine($"Event Reset: {nCode}, WP : {wp}");
+                SetWindowsHook(hookId: hookId);
+                Debug.WriteLine(message: $"Event Reset: {nCode}, WP : {wp}");
             }
 
-            return User32Util.CallNextHookEx(_ptrHook, nCode, wp, lp);
+            return User32Util.CallNextHookEx(hook: _ptrHook, nCode: nCode, wp: wp, lp: lp);
         };
-        _ptrHook = User32Util.SetWindowsHookEx((int)hookId, _lowLevelProc, IntPtr.Zero, 0);
+        SetWindowsHook(hookId: hookId);
     }
 
     public void Unhook()
     {
         if (_ptrHook != IntPtr.Zero)
-            User32Util.UnhookWindowsHookEx(_ptrHook);
+            User32Util.UnhookWindowsHookEx(hook: _ptrHook);
     }
 
     private bool IsValidEvent(int nCode, int wp, IEnumerable<int> validEventIds) =>
-        nCode >= 0 && validEventIds.Contains(wp);
+        nCode >= 0 && validEventIds.Contains(value: wp);
+
+    private void SetWindowsHook(HookId hookId) => _ptrHook = User32Util.SetWindowsHookEx(
+        id: (int)hookId,
+        callback: _lowLevelProc,
+        hMod: IntPtr.Zero,
+        dwThreadId: 0
+    );
 }
